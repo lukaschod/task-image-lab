@@ -22,7 +22,7 @@ struct HierarchyView: View {
                     Button("Ellipse", action: onCreateEllipse)
                     Button("Stress Test", action: onStressTest)
                 } label: {
-                    Text("Import")
+                    Text("Add")
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.small)

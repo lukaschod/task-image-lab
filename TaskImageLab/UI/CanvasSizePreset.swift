@@ -10,6 +10,8 @@ struct CanvasSizePreset {
         CanvasSizePreset(title: "HD 1280 x 720", size: CGSize(width: 1280, height: 720)),
         CanvasSizePreset(title: "Full HD 1920 x 1080", size: CGSize(width: 1920, height: 1080)),
         CanvasSizePreset(title: "Ultra HD 3840 x 2160", size: CGSize(width: 3840, height: 2060))
+        ,
+        CanvasSizePreset(title: "Square 3840 x 3840", size: CGSize(width: 3840, height: 3840))
     ]
 }
 

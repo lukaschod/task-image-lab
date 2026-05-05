@@ -1,7 +1,12 @@
 func updateVectorShapeTexture(on canvas: Canvas) {
     guard
-        let textures: Textures = canvas.resource()
+        let textures: Textures = canvas.resource(),
+        let renderingMode: VectorRenderingMode = canvas.resource()
     else {
+        return
+    }
+    
+    if renderingMode.backend == .triangulationRenderPass {
         return
     }
     

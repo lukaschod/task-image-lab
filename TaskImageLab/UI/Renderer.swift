@@ -57,6 +57,7 @@ final class Renderer: NSObject, MTKViewDelegate {
             .addResource(Textures(device: device))
             .addResource(ImageCompositionMode())
             .addResource(VectorRenderingMode())
+            .addResource(TransformUpdateMode())
             .addResource(RenderGraph())
             .addResource(Time())
             .addResource(CommandBuffer())
@@ -67,6 +68,7 @@ final class Renderer: NSObject, MTKViewDelegate {
             .addResource(ColorAdjustmentPipeline(device: device))
             .addResource(BackBuffer())
             .addResource(LayerSelection())
+            .addSystem(name: "forceTransformChanged", forceTransformChanged)
             .addSystem(name: "changedColorAdjustment", changedColorAdjustment)
             .addSystem(name: "updateVectorPath", updateVectorPath)
             .addSystem(name: "updateSegmentBuffer", updateSegmentBuffer)
@@ -201,6 +203,27 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
 
         return renderingMode.backend
+    }
+
+    func setTransformUpdateBehavior(_ behavior: TransformUpdateBehavior) {
+        guard let transformUpdateMode: TransformUpdateMode = canvas.resource() else {
+            return
+        }
+
+        guard transformUpdateMode.behavior != behavior else {
+            return
+        }
+
+        transformUpdateMode.behavior = behavior
+        NotificationCenter.default.post(name: .transformUpdateModeDidChange, object: nil)
+    }
+
+    func transformUpdateBehavior() -> TransformUpdateBehavior {
+        guard let transformUpdateMode: TransformUpdateMode = canvas.resource() else {
+            return .onChange
+        }
+
+        return transformUpdateMode.behavior
     }
 
     func layer(at point: SIMD2<Float>) -> Layer? {

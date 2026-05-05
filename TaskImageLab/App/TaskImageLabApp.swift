@@ -16,6 +16,9 @@ struct ImageEditorApp: App {
                 Section("Vector Rendering") {
                     VectorRenderingModeCommands()
                 }
+                Section("Transform Updates") {
+                    TransformUpdateModeCommands()
+                }
             }
         }
     }

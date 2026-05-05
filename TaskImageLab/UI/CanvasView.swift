@@ -17,14 +17,24 @@ struct CanvasView: View {
     @State private var dragStartCanvasPoint: SIMD2<Float> = .zero
 
     var body: some View {
-        ScrollView([.horizontal, .vertical]) {
-            MetalCanvasArtboard(
-                renderer: renderer,
-                canvasSize: canvasSize,
-                zoomScale: zoomScale
-            )
-            .contentShape(Rectangle())
-            .gesture(canvasDragGesture)
+        GeometryReader { geometry in
+            ScrollView([.horizontal, .vertical]) {
+                ZStack {
+                    Color.clear
+
+                    MetalCanvasArtboard(
+                        renderer: renderer,
+                        canvasSize: canvasSize,
+                        zoomScale: zoomScale
+                    )
+                    .contentShape(Rectangle())
+                    .gesture(canvasDragGesture)
+                }
+                .frame(
+                    width: scrollContentSize(for: geometry.size).width,
+                    height: scrollContentSize(for: geometry.size).height
+                )
+            }
         }
         .background(Color.clear)
         .overlay {
@@ -82,6 +92,19 @@ struct CanvasView: View {
             .onEnded { _ in
                 dragLayer = nil
             }
+    }
+
+    private func scrollContentSize(for viewportSize: CGSize) -> CGSize {
+        CGSize(
+            width: max(
+                viewportSize.width + (workspacePadding * 2),
+                canvasSize.width * zoomScale + (workspacePadding * 2)
+            ),
+            height: max(
+                viewportSize.height + (workspacePadding * 2),
+                canvasSize.height * zoomScale + (workspacePadding * 2)
+            )
+        )
     }
 }
 

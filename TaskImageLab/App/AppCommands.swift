@@ -88,7 +88,39 @@ struct VectorRenderingModeCommands: View {
     }
 }
 
+struct TransformUpdateModeCommands: View {
+    @FocusedValue(\.activeRenderer) private var renderer
+    @State private var refreshID = UUID()
+
+    var body: some View {
+        Group {
+            Button {
+                renderer?.setTransformUpdateBehavior(.onChange)
+            } label: {
+                Label(
+                    "On Change",
+                    systemImage: renderer?.transformUpdateBehavior() == .onChange ? "checkmark" : ""
+                )
+            }
+
+            Button {
+                renderer?.setTransformUpdateBehavior(.alwaysChanged)
+            } label: {
+                Label(
+                    "Always Changed",
+                    systemImage: renderer?.transformUpdateBehavior() == .alwaysChanged ? "checkmark" : ""
+                )
+            }
+        }
+        .id(refreshID)
+        .onReceive(NotificationCenter.default.publisher(for: .transformUpdateModeDidChange)) { _ in
+            refreshID = UUID()
+        }
+    }
+}
+
 extension Notification.Name {
     static let imageCompositionModeDidChange = Notification.Name("imageCompositionModeDidChange")
     static let vectorRenderingModeDidChange = Notification.Name("vectorRenderingModeDidChange")
+    static let transformUpdateModeDidChange = Notification.Name("transformUpdateModeDidChange")
 }
