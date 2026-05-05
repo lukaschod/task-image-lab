@@ -187,6 +187,11 @@ func executeRenderGraph(on canvas: Canvas) {
         computeEncoder = encoder
         return encoder
     }
+    
+    // Force clear if there are no nodes
+    if sortedNodes.isEmpty {
+        _ = currentRenderEncoder()
+    }
 
     for node in sortedNodes {
         switch node.kind {
