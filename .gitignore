@@ -1,0 +1,45 @@
+.DS_Store
+
+# Xcode user data
+xcuserdata/
+*.xcuserdatad/
+*.xcuserstate
+
+# Xcode build products and intermediate files
+build/
+DerivedData/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Archives and symbol files
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# App bundles and generated products
+Products/
+*.app
